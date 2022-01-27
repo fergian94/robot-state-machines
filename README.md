@@ -1,2 +1,5 @@
 # state_machines
-A collection of event-based state machines for robotic applications development
+A collection of event-based state machines for robotic applications development.
+
+## Dependencies
+- tinyfsm
