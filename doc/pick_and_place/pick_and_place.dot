@@ -1,0 +1,38 @@
+digraph sm {
+    ranksep=3;
+    ratio=auto;
+    layout=twopi;
+    edge [lblstyle="above, sloped"];
+    root=panic;
+    inv_node1 [label="inv_node1", style=invis];
+    inv_node2 [label="inv_node2", style=invis];
+    inv_node3 [label="inv_node3", style=invis];
+    idle -> scanning [label="manual start"];
+    inv_node3 -> scanning [label="scan event"];
+    scanning -> panic [label="fail event"];
+    panic -> scanning;
+    scanning -> planning_pick [label="planning event"];
+    planning_pick -> panic [label="fail event"];
+    panic -> planning_pick;
+    planning_pick -> picking [label="pick event"];
+    inv_node1 -> picking [label="new scan event"];
+    picking -> panic [label="fail event"];
+    panic -> picking;
+    picking -> planning_pick [label="new scan event"];
+    picking -> planning_place [label="planning event"];
+    planning_place -> panic [label="fail event"];
+    panic -> planning_place;
+    planning_place -> placing [label="place event"];
+    inv_node2 -> placing [label="new scan event"];
+    placing -> panic [label="fail event"];
+    panic -> placing;
+    placing -> planning_place [label="new scan event"];
+    placing -> pre_idle [label="completion event"];
+    panic -> pre_idle [label="error"];
+    pre_idle -> idle [label="once complete or reset"];
+}
+
+/* To compile, pass through latex and then generate a pdf
+dot2tex --tikzedgelabel --autosize --crop sm.gv > sm.tex
+pdflatex sm.tex
+*/
