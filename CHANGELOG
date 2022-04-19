@@ -1,0 +1,16 @@
+# v0.0.0
+- initial commit
+- pick and place state machine (first version)
+
+# v0.1.5
+
+New feature: Doxygen documentation
+
+1. deleted error recovery methods from Panic state (should be treated from outside, WHEN the machine triggers the Panic state, but not BY the Panic state. The State Machine is intended to work as is, and all the external implementations orchestrating the triggering of the different stages should be put outside)
+2. deleted error_list and error management of PreIdle state (for the same reasons stated above)
+3. deleted string containers for the pick_request and place_request respectively in PickPlanning and PlacePlanning states (same reasons stated above)
+4. simplified react methods after deletion of planning requests in PickPlanning and PlacePlanning states
+5. simplified entry methods to print neat and synthetic information
+6. added missing react method for Placing state (transition to panic)
+7. removed react from Scanning state (used to force transition for testing purposes)
+

@@ -7,50 +7,27 @@ namespace pick_place_sm
 
   // define the machine states as classes inheriting from the base state machine class
 
-  //   ___    _ _
-  //  |_ _|__| | |___
-  //   | |/ _` | / -_)
-  //  |___\__,_|_\___|
-
-  void Idle::entry()
-  {
-    std::cout << "[IDLE] waiting for manual start!\n";
-  }
-
-  void Idle::react(StartEvent const &e)
-  {
-    std::cout << "[IDLE] requested manual start. Transition to Scanning\n";
-    transit<Scanning>();
-  }
 
   //   ___           _
   //  | _ \__ _ _ _ (_)__
   //  |  _/ _` | ' \| / _|
   //  |_| \__,_|_||_|_\__|
 
-  void Panic::RecoverFromError10(void)
+  void Panic::entry()
   {
-    std::cout << "[PANIC] Fixing error 10 ... FIXED!\n";
+    std::cout << "[PANIC] stacca stacca!\n";
+  }
+
+  void Panic::react(StartEvent const &e)
+  {
+    std::cout << "[PANIC] all stopped! Transition to PreIdle\n";
     transit<PreIdle>();
   }
 
-  void Panic::react(FailEvent const &e)
+  void Panic::react(RecoverEvent const &e)
   {
-    std::cout << "[PANIC] Received a failure with code: " << e.error_code << ".\n";
-    switch (e.error_code)
-    {
-    case 10:
-      std::cout << "[PANIC] recoverable failure, trying recover..\n";
-      RecoverFromError10();
-      break;
-    case 20:
-    default:
-      std::cout << "[PANIC] hard failure, forwarding error event\n";
-      std::cout << "[PANIC] transition to PreIdle state\n";
-      transit<PreIdle>();
-      this->current_state_ptr->dispatch(e);
-      break;
-    }
+    std::cout << "[PANIC] all errors fixed! Recovering previous state..";
+    // transit to prev state!
   }
 
   //   ___         ___    _ _
@@ -60,47 +37,39 @@ namespace pick_place_sm
 
   void PreIdle::entry()
   {
-    std::cout << "[PRE-IDLE] entry, doing sanity check..\n";
-    std::cout << "[PRE-IDLE] OK! moving to Idle\n";
-    transit<Idle>();
-  }
-
-  void PreIdle::react(FailEvent const &e)
-  {
-    std::cout << "[PRE-IDLE] received hard failure event: " << e.error_code << "\n";
-    error_list.push_back(e);
-    std::cout << "[PRE-IDLE] list updated, keeping the state.\n";
+    std::cout << "[PRE-IDLE] sanity check..\n";
   }
 
   void PreIdle::react(PlaceEvent const &e)
   {
-    std::cout << "[PRE-IDLE] pick & place completed! Moving to Idle\n";
+    std::cout << "[PRE-IDLE] pick&place completed! Transition to Idle\n";
     transit<Idle>();
   }
 
   void PreIdle::react(StartEvent const &e)
   {
-    std::cout << "[PRE-IDLE] received start request, integrity check..\n";
-
-    if (error_list.empty())
-    {
-      std::cout << "[PRE-IDLE] everything looks good, transition to Idle and forwarding the start request.\n";
-      transit<Idle>();
-    }
-    else
-    {
-      std::cout << "[PRE-IDLE] error list is non-empty! Fix all the errors before requesting start.\n";
-      print_error_list();
-    }
+    std::cout << "[PRE-IDLE] preliminary procedure completed successfully, transition to Idle\n";
+    transit<Idle>();
   }
 
-  void PreIdle::print_error_list()
+
+  //   ___    _ _
+  //  |_ _|__| | |___
+  //   | |/ _` | / -_)
+  //  |___\__,_|_\___|
+
+  void Idle::entry()
   {
-    std::cout << "Error list:\n";
-    for (auto e : error_list)
-      std::cout << e.error_code << "\n";
+    std::cout << "[IDLE] init procedure and waiting manual start!\n";
   }
 
+  void Idle::react(StartEvent const &e)
+  {
+    std::cout << "[IDLE] requested manual start. Transition to Scanning\n";
+    transit<Scanning>();
+  }
+
+  
   //   ___                    _
   //  / __| __ __ _ _ _  _ _ (_)_ _  __ _
   //  \__ \/ _/ _` | ' \| ' \| | ' \/ _` |
@@ -109,11 +78,14 @@ namespace pick_place_sm
 
   void Scanning::react(ScanEvent const &e)
   {
-    std::cout << "[SCANNING] received a ScanEvent, copying the message\n";
-
-    std::cout << "[SCANNING] generating the planning request\n";
-    std::cout << "[SCANNING] transition to Pick Planning\n";
+    std::cout << "[SCANNING] received a ScanEvent, transition to Pick Planning\n";
     transit<PickPlanning>();
+  }
+
+  void Scanning::react(FailEvent const &e)
+  {
+    std::cout << "[SCANNING] scan failure! Transition to Panic\n";
+    transit<Panic>();
   }
 
   //   ___ _    _   ___ _                _
@@ -124,17 +96,13 @@ namespace pick_place_sm
 
   void PickPlanning::react(PlanningEvent const &e)
   {
-    std::cout << "[PICK PLANNING] received a planning request\n";
-    // pick_request.scan_msg = e.scan_msg;
-    pick_request.point_of_interest = "poi position";
-    pick_request.pre_grasp = "pre grasp position";
-    pick_request.post_grasp = "post grasp position";
-    std::cout << "[PICK PLANNING] transition to Picking\n";
+    std::cout << "[PICK PLANNING] received a planning request, transition to Picking\n";
     transit<Picking>();
   }
 
   void PickPlanning::react(FailEvent const &e)
   {
+    std::cout << "[PICK PLANNING] plan not found! Transition to Panic\n";
     transit<Panic>();
   }
 
@@ -146,8 +114,7 @@ namespace pick_place_sm
 
   void Picking::react(PickEvent const &e)
   {
-    std::cout << "[PICKING] received a picking plan, executing it\n";
-    std::cout << "[PICKING] pick operation complete, transition to place planning\n";
+    std::cout << "[PICKING] pick successful, transition to Place Planning\n";
     transit<PlacePlanning>();
   }
 
@@ -155,6 +122,12 @@ namespace pick_place_sm
   {
     std::cout << "[PICKING] received a new scan event while picking, replanning\n";
     transit<PickPlanning>();
+  }
+
+  void Picking::react(FailEvent const &e)
+  {
+    std::cout << "[PICKING] failed while picking! Transition to Panic\n";
+    transit<Panic>();
   }
 
   //   ___ _             ___ _                _
@@ -165,14 +138,14 @@ namespace pick_place_sm
 
   void PlacePlanning::react(PlanningEvent const &e)
   {
-    std::cout << "[PLACE PLANNING] received a planning request\n";
-    // place_request.scan_msg = e.scan_msg;
-    place_request.point_of_interest = e.point_of_interest;
-    place_request.occupancy_grid = e.occupancy_grid;
-    place_request.pre_place = "pre placing position";
-    place_request.post_place = "post placing position";
-    std::cout << "[PLACE PLANNING] transition to Placing\n";
+    std::cout << "[PLACE PLANNING] received a planning request, transition to Placing\n";
     transit<Placing>();
+  }
+
+  void PlacePlanning::react(FailEvent const &e)
+  {
+    std::cout << "[PLACE PLANNING] plan not found! Transition to Panic\n";
+    transit<Panic>();
   }
 
   //   ___ _         _
@@ -183,8 +156,7 @@ namespace pick_place_sm
 
   void Placing::react(PlaceEvent const &e)
   {
-    std::cout << "[PLACING] received a placing plan, executing place operation\n";
-    std::cout << "[PLACING] place operation complete, going to PreIdle and sending a Completion event\n";
+    std::cout << "[PLACING] place successful, transition to PreIdle and sending a Completion event\n";
     transit<PreIdle>();
   }
 
@@ -192,6 +164,12 @@ namespace pick_place_sm
   {
     std::cout << "[PLACING] received a new scan event while placing, replanning\n";
     transit<PlacePlanning>();
+  }
+
+  void Placing::react(FailEvent const &e)
+  {
+    std::cout << "[PLACING] placing operation failed! Transition to Panic\n";
+    transit<Panic>();
   }
 
 
@@ -222,18 +200,9 @@ namespace pick_place_sm
   {
     std::cout << "Ignored fail event\n";
   }
-  void PickPlaceSM::react(CompletionEvent const &)
+  void PickPlaceSM::react(RecoverEvent const &)
   {
-    std::cout << "Ignored completion event\n";
-  }
-
-  // TO BE REMOVED!
-  // This function enforces the transit to panic just to test it
-  // it is wrong to perform other operations after the transit to another state
-  void Scanning::react(FailEvent const &e)
-  {
-    transit<Panic>();
-    this->current_state_ptr->dispatch(e);
+    std::cout << "Ignored recover event\n";
   }
 
 } // namespace pick_place_sm

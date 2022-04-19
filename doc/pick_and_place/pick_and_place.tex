@@ -26,107 +26,107 @@
   \pgfsetlinewidth{1bp}
 %%
 \pgfsetcolor{black}
-  % Edge: inv_node1 -> picking
-  \draw [->] (115.73bp,439.17bp) .. controls (154.07bp,439.17bp) and (203.23bp,439.17bp)  .. node[above, sloped] {new scan event} (246.69bp,439.17bp);
-  % Edge: inv_node2 -> placing
-  \draw [->] (581.79bp,36.32bp) .. controls (573.35bp,73.297bp) and (554.24bp,157.05bp)  .. node[above, sloped] {new scan event} (541.98bp,210.75bp);
-  % Edge: inv_node3 -> scanning
-  \draw [->] (822.57bp,622.49bp) .. controls (774.67bp,618.99bp) and (707.16bp,614.07bp)  .. node[above, sloped] {scan event} (654.65bp,610.24bp);
-  % Edge: idle -> scanning
-  \draw [->] (588.75bp,842.19bp) .. controls (595.39bp,798.73bp) and (612.24bp,688.42bp)  .. node[above, sloped] {manual start} (621.77bp,626.02bp);
-  % Edge: scanning -> panic
-  \draw [->] (615.73bp,590.53bp) .. controls (595.16bp,559.5bp) and (544.32bp,495.26bp)  .. node[above, sloped] {fail event} (506.91bp,453.69bp);
-  % Edge: scanning -> planning_pick
-  \draw [->] (594.41bp,608.04bp) .. controls (548.88bp,608.04bp) and (461.96bp,608.04bp)  .. node[above, sloped] {planning event} (396.04bp,608.04bp);
-  % Edge: panic -> scanning
-  \draw [->] (498.42bp,456.36bp) .. controls (518.73bp,487.08bp) and (569.31bp,551.05bp)  .. (606.94bp,592.96bp);
-  % Edge: panic -> planning_pick
-  \draw [->] (473.12bp,453.33bp) .. controls (446.51bp,481.68bp) and (395.44bp,545.4bp)  .. (364.16bp,590.23bp);
-  % Edge: panic -> picking
-  \draw [->] (463.36bp,434.55bp) .. controls (424.96bp,431.92bp) and (353.68bp,431.72bp)  .. (300.21bp,434.56bp);
-  % Edge: panic -> planning_place
-  \draw [->] (481.27bp,421.98bp) .. controls (461.22bp,391.66bp) and (411.68bp,328.94bp)  .. (373.91bp,286.62bp);
-  % Edge: panic -> placing
-  \draw [->] (497.94bp,421.74bp) .. controls (509.74bp,385.34bp) and (529.23bp,300.98bp)  .. (537.79bp,246.7bp);
-  % Edge: panic -> pre_idle
-  \draw [->] (511.79bp,428.6bp) .. controls (546.25bp,412.01bp) and (613.19bp,379.77bp)  .. node[above, sloped] {error} (662.29bp,356.12bp);
-  % Edge: planning_pick -> panic
-  \draw [->] (373.85bp,591.78bp) .. controls (401.13bp,562.28bp) and (450.88bp,500.07bp)  .. node[above, sloped] {fail event} (481.2bp,456.47bp);
-  % Edge: planning_pick -> picking
-  \draw [->] (351.14bp,590.04bp) .. controls (339.96bp,559.73bp) and (310.86bp,498.59bp)  .. node[above, sloped] {pick event} (286.39bp,455.19bp);
-  % Edge: picking -> panic
-  \draw [->] (300.33bp,443.78bp) .. controls (338.73bp,446.42bp) and (410.01bp,446.61bp)  .. node[above, sloped] {fail event} (463.48bp,443.77bp);
-  % Edge: picking -> planning_pick
-  \draw [->] (277.88bp,457.17bp) .. controls (288.91bp,487.09bp) and (317.4bp,547.04bp)  .. node[above, sloped] {new scan event} (341.88bp,590.77bp);
-  % Edge: picking -> planning_place
-  \draw [->] (282.24bp,421.73bp) .. controls (296.45bp,392.23bp) and (325.32bp,332.27bp)  .. node[above, sloped] {planning event} (346.58bp,288.14bp);
-  % Edge: planning_place -> panic
-  \draw [->] (364.17bp,288.12bp) .. controls (384.9bp,319.3bp) and (435.58bp,383.33bp)  .. node[above, sloped] {fail event} (472.85bp,424.71bp);
-  % Edge: planning_place -> placing
-  \draw [->] (397.46bp,266.53bp) .. controls (430.5bp,260.49bp) and (475.7bp,250.04bp)  .. node[above, sloped] {place event} (515.4bp,238.55bp);
-  % Edge: placing -> panic
-  \draw [->] (529.82bp,246.01bp) .. controls (518.02bp,282.42bp) and (498.53bp,366.77bp)  .. node[above, sloped] {fail event} (489.97bp,421.06bp);
-  % Edge: placing -> planning_place
-  \draw [->] (510.64bp,229.78bp) .. controls (480.34bp,234.52bp) and (431.13bp,245.45bp)  .. node[above, sloped] {new scan event} (386.29bp,257.76bp);
-  % Edge: placing -> pre_idle
-  \draw [->] (555.3bp,242.45bp) .. controls (580.94bp,262.9bp) and (629.06bp,301.27bp)  .. node[above, sloped] {completion event} (666.63bp,331.24bp);
-  % Edge: pre_idle -> idle
-  \draw [->] (681.01bp,363.47bp) .. controls (666.35bp,440.09bp) and (609.17bp,739.08bp)  .. node[above, sloped] {once complete or reset} (589.39bp,842.46bp);
-  % Node: picking
+  % Edge: inv_node1 -> Picking
+  \draw [->] (115.73bp,439.17bp) .. controls (153.84bp,439.17bp) and (202.65bp,439.17bp)  .. node[above, sloped] {(new scan event)} (246.11bp,439.17bp);
+  % Edge: inv_node2 -> Placing
+  \draw [->] (581.79bp,36.32bp) .. controls (573.35bp,73.297bp) and (554.24bp,157.05bp)  .. node[above, sloped] {(new scan event)} (541.98bp,210.75bp);
+  % Edge: inv_node3 -> Scanning
+  \draw [->] (822.57bp,622.49bp) .. controls (774.94bp,619.01bp) and (707.92bp,614.13bp)  .. node[above, sloped] {Scan Event} (655.35bp,610.29bp);
+  % Edge: Idle -> Scanning
+  \draw [->] (588.75bp,842.19bp) .. controls (595.39bp,798.73bp) and (612.24bp,688.42bp)  .. node[above, sloped] {Start Event} (621.77bp,626.02bp);
+  % Edge: Scanning -> Panic
+  \draw [->] (615.73bp,590.53bp) .. controls (595.16bp,559.5bp) and (544.32bp,495.26bp)  .. node[above, sloped] {Fail Event} (506.91bp,453.69bp);
+  % Edge: Scanning -> PickPlanning
+  \draw [->] (593.36bp,608.04bp) .. controls (547.3bp,608.04bp) and (460.59bp,608.04bp)  .. node[above, sloped] {Scan Event} (395.21bp,608.04bp);
+  % Edge: Panic -> Scanning
+  \draw [->] (498.42bp,456.36bp) .. controls (518.73bp,487.08bp) and (569.31bp,551.05bp)  .. node[above, sloped] {(recover)} (606.94bp,592.96bp);
+  % Edge: Panic -> PickPlanning
+  \draw [->] (473.12bp,453.33bp) .. controls (446.51bp,481.68bp) and (395.44bp,545.4bp)  .. node[above, sloped] {(recover)} (364.16bp,590.23bp);
+  % Edge: Panic -> Picking
+  \draw [->] (463.36bp,434.55bp) .. controls (425.06bp,431.93bp) and (354.07bp,431.72bp)  .. node[above, sloped] {(recover)} (300.55bp,434.54bp);
+  % Edge: Panic -> PlacePlanning
+  \draw [->] (481.27bp,421.98bp) .. controls (461.22bp,391.66bp) and (411.68bp,328.94bp)  .. node[above, sloped] {(recover)} (373.91bp,286.62bp);
+  % Edge: Panic -> Placing
+  \draw [->] (497.94bp,421.74bp) .. controls (509.74bp,385.34bp) and (529.23bp,300.98bp)  .. node[above, sloped] {(recover)} (537.79bp,246.7bp);
+  % Edge: Panic -> PreIdle
+  \draw [->] (511.79bp,428.6bp) .. controls (546.25bp,412.01bp) and (613.19bp,379.77bp)  .. node[above, sloped] {Start Event} (662.29bp,356.12bp);
+  % Edge: PickPlanning -> Panic
+  \draw [->] (373.85bp,591.78bp) .. controls (401.13bp,562.28bp) and (450.88bp,500.07bp)  .. node[above, sloped] {Fail Event} (481.2bp,456.47bp);
+  % Edge: PickPlanning -> Picking
+  \draw [->] (351.14bp,590.04bp) .. controls (339.96bp,559.73bp) and (310.86bp,498.59bp)  .. node[above, sloped] {Planning Event} (286.39bp,455.19bp);
+  % Edge: Picking -> Panic
+  \draw [->] (300.76bp,443.81bp) .. controls (339.32bp,446.42bp) and (410.35bp,446.61bp)  .. node[above, sloped] {Fail Event} (463.6bp,443.77bp);
+  % Edge: Picking -> PickPlanning
+  \draw [->] (277.88bp,457.17bp) .. controls (288.94bp,487.17bp) and (317.55bp,547.36bp)  .. node[above, sloped] {(new scan event)} (342.03bp,591.02bp);
+  % Edge: Picking -> PlacePlanning
+  \draw [->] (282.24bp,421.73bp) .. controls (296.45bp,392.23bp) and (325.32bp,332.27bp)  .. node[above, sloped] {Pick Event} (346.58bp,288.14bp);
+  % Edge: PlacePlanning -> Panic
+  \draw [->] (364.17bp,288.12bp) .. controls (384.9bp,319.3bp) and (435.58bp,383.33bp)  .. node[above, sloped] {Fail Event} (472.85bp,424.71bp);
+  % Edge: PlacePlanning -> Placing
+  \draw [->] (397.0bp,266.61bp) .. controls (429.92bp,260.62bp) and (475.14bp,250.18bp)  .. node[above, sloped] {Planning Event} (515.03bp,238.66bp);
+  % Edge: Placing -> Panic
+  \draw [->] (529.82bp,246.01bp) .. controls (518.02bp,282.42bp) and (498.53bp,366.77bp)  .. node[above, sloped] {Fail Event} (489.97bp,421.06bp);
+  % Edge: Placing -> PlacePlanning
+  \draw [->] (510.24bp,229.84bp) .. controls (479.86bp,234.63bp) and (430.8bp,245.53bp)  .. node[above, sloped] {(new scan event)} (386.14bp,257.8bp);
+  % Edge: Placing -> PreIdle
+  \draw [->] (555.59bp,242.68bp) .. controls (581.33bp,263.21bp) and (629.29bp,301.46bp)  .. node[above, sloped] {Place Event} (666.71bp,331.3bp);
+  % Edge: PreIdle -> Idle
+  \draw [->] (681.01bp,363.47bp) .. controls (666.35bp,440.09bp) and (609.17bp,739.08bp)  .. node[above, sloped] {                 Place/Start Event} (589.39bp,842.46bp);
+  % Node: Picking
 \begin{scope}
   \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
   \pgfsetstrokecolor{strokecol}
-  \draw (273.84bp,439.17bp) ellipse (27.0bp and 18.0bp);
-  \draw (273.84bp,439.17bp) node {picking};
+  \draw (273.84bp,439.17bp) ellipse (27.5bp and 18.0bp);
+  \draw (273.84bp,439.17bp) node {Picking};
 \end{scope}
-  % Node: placing
+  % Node: Placing
 \begin{scope}
   \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
   \pgfsetstrokecolor{strokecol}
-  \draw (537.91bp,228.58bp) ellipse (27.0bp and 18.0bp);
-  \draw (537.91bp,228.58bp) node {placing};
+  \draw (537.91bp,228.58bp) ellipse (27.5bp and 18.0bp);
+  \draw (537.91bp,228.58bp) node {Placing};
 \end{scope}
-  % Node: scanning
+  % Node: Scanning
 \begin{scope}
   \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
   \pgfsetstrokecolor{strokecol}
-  \draw (624.52bp,608.04bp) ellipse (30.0bp and 18.0bp);
-  \draw (624.52bp,608.04bp) node {scanning};
+  \draw (624.52bp,608.04bp) ellipse (31.0bp and 18.0bp);
+  \draw (624.52bp,608.04bp) node {Scanning};
 \end{scope}
-  % Node: idle
+  % Node: Idle
 \begin{scope}
   \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
   \pgfsetstrokecolor{strokecol}
   \draw (585.97bp,860.34bp) ellipse (27.0bp and 18.0bp);
-  \draw (585.97bp,860.34bp) node {idle};
+  \draw (585.97bp,860.34bp) node {Idle};
 \end{scope}
-  % Node: panic
+  % Node: Panic
 \begin{scope}
   \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
   \pgfsetstrokecolor{strokecol}
   \draw (489.84bp,439.17bp) ellipse (27.0bp and 18.0bp);
-  \draw (489.84bp,439.17bp) node {panic};
+  \draw (489.84bp,439.17bp) node {Panic};
 \end{scope}
-  % Node: planning_pick
+  % Node: PickPlanning
 \begin{scope}
   \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
   \pgfsetstrokecolor{strokecol}
-  \draw (355.17bp,608.04bp) ellipse (40.5bp and 18.0bp);
-  \draw (355.17bp,608.04bp) node {planning\_pick};
+  \draw (355.17bp,608.04bp) ellipse (40.0bp and 18.0bp);
+  \draw (355.17bp,608.04bp) node {PickPlanning};
 \end{scope}
-  % Node: planning_place
+  % Node: PlacePlanning
 \begin{scope}
   \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
   \pgfsetstrokecolor{strokecol}
-  \draw (355.17bp,270.29bp) ellipse (43.0bp and 18.0bp);
-  \draw (355.17bp,270.29bp) node {planning\_place};
+  \draw (355.17bp,270.29bp) ellipse (42.5bp and 18.0bp);
+  \draw (355.17bp,270.29bp) node {PlacePlanning};
 \end{scope}
-  % Node: pre_idle
+  % Node: PreIdle
 \begin{scope}
   \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
   \pgfsetstrokecolor{strokecol}
-  \draw (684.45bp,345.45bp) ellipse (27.5bp and 18.0bp);
-  \draw (684.45bp,345.45bp) node {pre\_idle};
+  \draw (684.45bp,345.45bp) ellipse (27.0bp and 18.0bp);
+  \draw (684.45bp,345.45bp) node {PreIdle};
 \end{scope}
 %
 \end{tikzpicture}

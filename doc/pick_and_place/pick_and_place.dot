@@ -3,36 +3,37 @@ digraph sm {
     ratio=auto;
     layout=twopi;
     edge [lblstyle="above, sloped"];
-    root=panic;
+    root=Panic;
     inv_node1 [label="inv_node1", style=invis];
     inv_node2 [label="inv_node2", style=invis];
     inv_node3 [label="inv_node3", style=invis];
-    idle -> scanning [label="manual start"];
-    inv_node3 -> scanning [label="scan event"];
-    scanning -> panic [label="fail event"];
-    panic -> scanning;
-    scanning -> planning_pick [label="planning event"];
-    planning_pick -> panic [label="fail event"];
-    panic -> planning_pick;
-    planning_pick -> picking [label="pick event"];
-    inv_node1 -> picking [label="new scan event"];
-    picking -> panic [label="fail event"];
-    panic -> picking;
-    picking -> planning_pick [label="new scan event"];
-    picking -> planning_place [label="planning event"];
-    planning_place -> panic [label="fail event"];
-    panic -> planning_place;
-    planning_place -> placing [label="place event"];
-    inv_node2 -> placing [label="new scan event"];
-    placing -> panic [label="fail event"];
-    panic -> placing;
-    placing -> planning_place [label="new scan event"];
-    placing -> pre_idle [label="completion event"];
-    panic -> pre_idle [label="error"];
-    pre_idle -> idle [label="once complete or reset"];
+    Idle -> Scanning [label="Start Event"];
+    inv_node3 -> Scanning [label="Scan Event"];
+    Scanning -> Panic [label="Fail Event"];
+    Panic -> Scanning [label="(recover)"];
+    Scanning -> PickPlanning [label="Scan Event"];
+    PickPlanning -> Panic [label="Fail Event"];
+    Panic -> PickPlanning [label="(recover)"];
+    PickPlanning -> Picking [label="Planning Event"];
+    inv_node1 -> Picking [label="(new scan event)"];
+    Picking -> Panic [label="Fail Event"];
+    Panic -> Picking [label="(recover)"];
+    Picking -> PickPlanning [label="(new scan event)"];
+    Picking -> PlacePlanning [label="Pick Event"];
+    PlacePlanning -> Panic [label="Fail Event"];
+    Panic -> PlacePlanning [label="(recover)"];
+    PlacePlanning -> Placing [label="Planning Event"];
+    inv_node2 -> Placing [label="(new scan event)"];
+    Placing -> Panic [label="Fail Event"];
+    Panic -> Placing [label="(recover)"];
+    Placing -> PlacePlanning [label="(new scan event)"];
+    Placing -> PreIdle [label="Place Event"];
+    Panic -> PreIdle [label="Start Event"];
+    PreIdle -> Idle [label="Start Event"];
 }
 
-/* To compile, pass through latex and then generate a pdf
-dot2tex --tikzedgelabel --autosize --crop sm.gv > sm.tex
-pdflatex sm.tex
+/* To compile, pass through latex, then generate a pdf, then a png for the documentation
+$ dot2tex --tikzedgelabel --autosize --crop pick_and_place.dot > pick_and_place.tex
+$ pdflatex pick_and_place.tex
+$ pdftoppm pick_and_place.pdf pick_and_place -png
 */
